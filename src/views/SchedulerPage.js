@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Paper from '@material-ui/core/Paper';
 import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
@@ -16,8 +15,9 @@ import {
   AppointmentForm,
   ConfirmationDialog,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { appointments } from 'redux/store/monthAppointments';
+import { appointments } from 'store/monthAppointments';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { jsonDateParser } from 'json-date-parser';
 
 const green = {
   50: '#8ACE76',
@@ -112,7 +112,7 @@ class SchedulerPage extends Component {
 
   componentDidMount() {
     if (localStorage.getItem('scheduler-unique')) {
-      this.setState({ data: JSON.parse(localStorage.getItem('scheduler-unique')) });
+      this.setState({ data: JSON.parse(localStorage.getItem('scheduler-unique'), jsonDateParser) });
     }
   }
 
@@ -169,7 +169,7 @@ class SchedulerPage extends Component {
     return (
       <MuiThemeProvider theme={theme}>
         <Paper>
-          <Scheduler data={data} width="200">
+          <Scheduler data={data}>
             <ViewState defaultCurrentDate={currentDate} />
             <EditingState
               onCommitChanges={this.commitChanges}
@@ -192,7 +192,6 @@ class SchedulerPage extends Component {
               basicLayoutComponent={BasicLayout}
               textEditorComponent={TextEditor}
               messages={messages}
-              width={200}
             />
             <DragDropProvider />
           </Scheduler>
@@ -201,8 +200,6 @@ class SchedulerPage extends Component {
     );
   }
 }
-
-const mapStateToProps = ({ data }) => ({ data });
 
 // SchedulerPage.propTypes = {
 //   data: PropTypes.arrayOf(
@@ -215,7 +212,7 @@ const mapStateToProps = ({ data }) => ({ data });
 //   ).isRequired,
 // };
 
-export default connect(mapStateToProps)(SchedulerPage);
+export default SchedulerPage;
 
 // przebudować reduxa albo skasować
 // zrobić 3 kurs reacta

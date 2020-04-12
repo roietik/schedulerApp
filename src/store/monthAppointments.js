@@ -103,6 +103,6 @@ export const appointments = [
     endDate: new Date(2020, 4, 2, 15, 45),
     id: 12,
     location: 'Room 2',
-    payment: '1000000',
+    payment: '1000',
   },
 ];

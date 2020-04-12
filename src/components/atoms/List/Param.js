@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { remCalc } from 'components/helpers/Calc';
+import { remCalc } from 'helpers/helpers';
 
 const Param = styled.div`
   line-height: ${remCalc(60)};
