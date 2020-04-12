@@ -45,13 +45,16 @@ export const monthlySummary = () => {
     const summary = data
       .filter(
         (item) =>
-          String(item.rRule).includes('FREQ=MONTHLY') || item.startDate.getMonth() === currentMonth,
+          (String(item.rRule).includes('FREQ=MONTHLY') &&
+            currentMonth >= item.startDate.getMonth()) ||
+          item.startDate.getMonth() === currentMonth,
       )
       .map((item) => item.payment)
-      .reduce((prevent, current) => Number(prevent) + Number(current));
+      .reduce((prevent, current) => Number(prevent) + Number(current), 0);
 
     chart.push({ month: getMonthName(currentMonth), summary });
   } while (idx < 7);
 
+  console.log('res', chart);
   return chart;
 };
